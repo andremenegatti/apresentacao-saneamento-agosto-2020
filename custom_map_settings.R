@@ -1,12 +1,6 @@
 library(tmap)
 
 custom_map_settings <- 
-  tm_style(
-    "beaver",
-    legend.format = 
-      list(fun = function(x) str_c(formatC(x, big.mark = '.', decimal.mark = ','), '%'),
-           text.separator = " a ")
-  ) +
   tm_layout(main.title.size = 1.2, fontfamily = 'serif', scale = 1.1,
             main.title.fontface = 'bold', bg.color = "white",
             inner.margins = c(.1, .1, .1, .1)) +

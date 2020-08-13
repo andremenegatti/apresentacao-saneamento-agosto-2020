@@ -1,9 +1,9 @@
 library(tidyverse)
-library(cagedExplorer)
+source('custom_theme.R')
 theme_set(custom_theme())
 
-ipca <- readxl::read_excel('data/serie-ipca-numero-indice-dezembro.xlsx')
-
+# Leitura e preparação dos dados ----------------------------------------------
+# Lendo planilhas xlsx com dados anuais e juntando em um único dataframe
 df_series <- tibble()
 for (ano in 2009:2018) {
   filename <- str_c('data/agregado-', ano, '.xlsx')
@@ -21,6 +21,10 @@ for (ano in 2009:2018) {
   
 }
 
+# Números-índice do IPCA
+ipca <- readxl::read_excel('data/serie-ipca-numero-indice-dezembro.xlsx')
+
+# Agregando tipos de investimento e deflacionando pelo IPCA
 df_series <- df_series %>% 
   left_join(ipca, by = 'ano') %>%
   mutate(numero_indice_norm =  5100.61 / numero_indice) %>% 
@@ -51,8 +55,8 @@ df_series %>%
     (ii) total de investimentos realizados pelo estado, município e/ou prestador.'
   )
 
-ggsave(filename = 'plots/lineplot-investimentos-totais.png',
-       width = 5.5, height = 5)
+# ggsave(filename = 'plots/lineplot-investimentos-totais.png',
+#        width = 5.5, height = 5)
 
 # Investimentos por tipo de serviço -------------------------------------------
 df_series %>% 
@@ -80,8 +84,8 @@ df_series %>%
     (ii) total de investimentos realizados pelo estado, município e/ou prestador.'
   )
 
-ggsave(filename = 'plots/lineplot-investimentos-tipo-servico.png',
-       width = 5.5, height = 5)
+# ggsave(filename = 'plots/lineplot-investimentos-tipo-servico.png',
+#        width = 5.5, height = 5)
 
 # Investimentos por modalidade ------------------------------------------------
 df_series %>% 
@@ -112,8 +116,8 @@ df_series %>%
     (ii) total de investimentos realizados pelo estado, município e/ou prestador.'
   )
 
-ggsave(filename = 'plots/lineplot-investimentos-modalidade.png',
-       width = 5.5, height = 5)
+# ggsave(filename = 'plots/lineplot-investimentos-modalidade.png',
+#        width = 5.5, height = 5)
 
 # Indicadores de qualidade ----------------------------------------------------
 df_series %>% 
@@ -146,5 +150,5 @@ df_series %>%
       'Fonte: Elaboração própria a partir de dados do SNIS (indicadores IN016, IN055 e IN056).'
   )
 
-ggsave(filename = 'plots/lineplot-indicadores-qualidade-brasil.png',
-       width = 5.5, height = 5)
+# ggsave(filename = 'plots/lineplot-indicadores-qualidade-brasil.png',
+#        width = 5.5, height = 5)
